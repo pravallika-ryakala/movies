@@ -90,7 +90,7 @@ app.put("/movies/:movieId/", async (request, response) => {
 });
 
 //delete movie API
-app.delete("/movies/movieId/", async (request, response) => {
+app.delete("/movies/:movieId/", async (request, response) => {
   const { movieId } = request.params;
   const deleteMovieQuery = `
     DELETE FROM movie WHERE movie_id=${movieId};
