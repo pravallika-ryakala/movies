@@ -16,6 +16,7 @@ const convertDBObjectToResponseObject = (dbObject) => {
     directorId: dbObject.director_id,
     movieName: dbObject.movie_name,
     leadActor: dbObject.lead_actor,
+    directorName: dbObject.director_name,
   };
 };
 
@@ -89,11 +90,28 @@ app.put("/movies/:movieId/", async (request, response) => {
 });
 
 //delete movie API
-app.delete("/movies/moviesId/", async (request, response) => {
+app.delete("/movies/movieId/", async (request, response) => {
   const { movieId } = request.params;
   const deleteMovieQuery = `
     DELETE FROM movie WHERE movie_id=${movieId};
     `;
   await db.run(deleteMovieQuery);
   response.send("Movie Removed");
+});
+
+//Get directors API
+app.get("/directors/", async (request, response) => {
+  const getDirectorsQuery = `
+    SELECT * FROM director;`;
+  const dbResults = await db.all(getDirectorsQuery);
+  response.send(dbResults.map((each) => convertDBObjectToResponseObject(each)));
+});
+
+//get directors movies
+app.get("/directors/:directorId/movies/", async (request, response) => {
+  const { directorId } = request.params;
+  const getDirectorMoviesQuery = `
+    SELECT movie_name FROM movie WHERE director_id=${directorId};`;
+  const dbResult = await db.all(getDirectorMoviesQuery);
+  response.send(dbResult.map((each) => convertDBObjectToResponseObject(each)));
 });

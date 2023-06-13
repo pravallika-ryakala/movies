@@ -20,4 +20,10 @@ PUT http://localhost:3000/movies/51/
   "leadActor": "Christopher Hemsworth"
 }
 ###
-DELETE http://localhost:3000/movies/60/
+DELETE http://localhost:3000/movies/46/
+
+###
+GET http://localhost:3000/directors/
+###
+
+GET http://localhost:3000/directors/1/movies/
