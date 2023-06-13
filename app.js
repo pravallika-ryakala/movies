@@ -71,7 +71,7 @@ app.get("/movies/:movieId/", async (request, response) => {
 });
 
 //Update movie details API
-app.put("/movies/:moviesId", async (request, response) => {
+app.put("/movies/:movieId/", async (request, response) => {
   const movieDetails = request.body;
   const { movieId } = request.params;
   const { directorId, movieName, leadActor } = movieDetails;
@@ -82,8 +82,18 @@ app.put("/movies/:moviesId", async (request, response) => {
     movie_name=${movieName},
     lead_actor=${leadActor}
     WHERE 
-    id=${movieId};
+    movie_id=${movieId};
     `;
   await db.run(updateMovieQuery);
   response.send("Movie Details Updated");
+});
+
+//delete movie API
+app.delete("/movies/moviesId/", async (request, response) => {
+  const { movieId } = request.params;
+  const deleteMovieQuery = `
+    DELETE FROM movie WHERE movie_id=${movieId};
+    `;
+  await db.run(deleteMovieQuery);
+  response.send("Movie Removed");
 });
